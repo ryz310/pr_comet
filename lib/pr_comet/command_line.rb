@@ -12,7 +12,7 @@ class PrComet
     def execute(command)
       puts "$ #{command}"
       `#{command}`.chomp.tap do |result|
-        color_code = $CHILD_STATUS.success? ? GREEN : RED
+        color_code = $CHILD_STATUS&.success? ? GREEN : RED
         color_puts(result, color_code)
       end
     end
