@@ -46,7 +46,7 @@ class PrComet
   # @param body [String] The body for the pull request
   # @param labels [Array<String>] An array of labels to apply to this PR
   # @return [Boolean] Return true if its successed
-  def create_pr(title:, body:, labels: nil)
+  def create!(title:, body:, labels: nil)
     return false unless git_condition_valid?
 
     git.push(github_token_url, topic_branch)

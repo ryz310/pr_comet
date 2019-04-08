@@ -65,9 +65,9 @@ RSpec.describe PrComet do
     end
   end
 
-  describe '#create_pr' do
-    subject(:create_pr) do
-      pr_comet.create_pr(
+  describe '#create!' do
+    subject(:create!) do
+      pr_comet.create!(
         title: 'The pull request title',
         body: 'The pull request body',
         labels: labels
@@ -93,14 +93,14 @@ RSpec.describe PrComet do
       it { is_expected.to be_truthy }
 
       it do
-        create_pr
+        create!
         expect(git_command)
           .to have_received(:push)
           .with(expected_remote_url, 'topic_branch')
       end
 
       it do
-        create_pr
+        create!
         expect(github_client)
           .to have_received(:create_pull_request)
           .with(expected_parameters)
@@ -120,12 +120,12 @@ RSpec.describe PrComet do
       it { is_expected.to be_falsey }
 
       it do
-        create_pr
+        create!
         expect(git_command).not_to have_received(:push)
       end
 
       it do
-        create_pr
+        create!
         expect(github_client).not_to have_received(:create_pull_request)
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe PrComet do
 
       it_behaves_like 'to call create pull request API' do
         it do
-          create_pr
+          create!
           expect(github_client)
             .to have_received(:add_labels)
             .with(1234, 'label a', 'label b')
@@ -146,7 +146,7 @@ RSpec.describe PrComet do
     context 'without labels option' do
       it_behaves_like 'to call create pull request API' do
         it do
-          create_pr
+          create!
           expect(github_client).not_to have_received(:add_labels)
         end
       end
