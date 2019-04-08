@@ -3,7 +3,6 @@ PATH
   specs:
     pr_comet (0.1.0)
       octokit
-      thor
 
 GEM
   remote: https://rubygems.org/
@@ -72,7 +71,6 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    thor (0.20.3)
     unicode-display_width (1.5.0)
     yard (0.9.19)
 
