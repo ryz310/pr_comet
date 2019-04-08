@@ -3,6 +3,7 @@
 require 'English'
 require 'octokit'
 require 'pr_comet/version'
+require 'pr_comet/errors'
 require 'pr_comet/command_line'
 require 'pr_comet/git/command'
 require 'pr_comet/github/client'
