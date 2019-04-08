@@ -1,6 +1,6 @@
 # PrComet
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/maintainability)](https://codeclimate.com/github/ryz310/pr_comet/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/test_coverage)](https://codeclimate.com/github/ryz310/pr_comet/test_coverage)
+[![CircleCI](https://circleci.com/gh/ryz310/pr_comet.svg?style=svg)](https://circleci.com/gh/ryz310/pr_comet) [![Maintainability](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/maintainability)](https://codeclimate.com/github/ryz310/pr_comet/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/test_coverage)](https://codeclimate.com/github/ryz310/pr_comet/test_coverage)
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pr_comet`. To experiment with that code, run `bin/console` for an interactive prompt.
 
