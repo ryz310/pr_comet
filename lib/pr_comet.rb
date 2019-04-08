@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 require 'octokit'
 require 'pr_comet/version'
 require 'pr_comet/command_line'
