@@ -12,19 +12,9 @@ class PrComet
     def execute(command)
       puts "$ #{command}"
       `#{command}`.chomp.tap do |result|
-        color_code = $CHILD_STATUS.success? ? GREEN : RED
-        color_puts(result, color_code)
+        color = $CHILD_STATUS.success? ? :green : :red
+        puts Rainbow(result).color(color)
       end
-    end
-
-    RED = 31
-    GREEN = 32
-    YELLOW = 33
-    BLUE = 34
-    PING = 35
-
-    def color_puts(string, color_code)
-      puts "\e[#{color_code}m#{string}\e[0m"
     end
   end
 end
