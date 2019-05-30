@@ -2,6 +2,7 @@
 
 require 'English'
 require 'octokit'
+require 'rainbow'
 require 'pr_comet/version'
 require 'pr_comet/errors'
 require 'pr_comet/command_line'

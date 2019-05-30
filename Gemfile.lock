@@ -3,11 +3,12 @@ PATH
   specs:
     pr_comet (0.1.1)
       octokit
+      rainbow
 
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.5.2)
+    addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
     byebug (11.0.1)
@@ -19,7 +20,7 @@ GEM
     jaro_winkler (1.5.2)
     json (2.2.0)
     method_source (0.9.2)
-    multipart-post (2.0.0)
+    multipart-post (2.1.1)
     octokit (4.14.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     parallel (1.17.0)
@@ -31,7 +32,7 @@ GEM
     pry-byebug (3.7.0)
       byebug (~> 11.0)
       pry (~> 0.10)
-    public_suffix (3.0.3)
+    public_suffix (3.1.0)
     rainbow (3.0.0)
     rake (10.5.0)
     rspec (3.8.0)
@@ -61,9 +62,9 @@ GEM
     rubocop-rspec (1.33.0)
       rubocop (>= 0.60.0)
     ruby-progressbar (1.10.0)
-    sawyer (0.8.1)
-      addressable (>= 2.3.5, < 2.6)
-      faraday (~> 0.8, < 1.0)
+    sawyer (0.8.2)
+      addressable (>= 2.3.5)
+      faraday (> 0.8, < 2.0)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
