@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe PrComet::Github::Client do
   let(:client) { described_class.new('GITHUB_ACCESS_TOKEN', remote_url) }
-  let(:remote_url) { 'https://github.com/ryz310/rubocop_challenger.git' }
+  let(:remote_url) { 'https://github.com/ryz310/pr_comet.git' }
   let(:octokit_mock) do
     instance_double(
       Octokit::Client,
@@ -18,18 +18,18 @@ RSpec.describe PrComet::Github::Client do
 
   describe '#repository' do
     context 'when use https protocol to the git remote URL' do
-      let(:remote_url) { 'https://github.com/ryz310/rubocop_challenger.git' }
+      let(:remote_url) { 'https://github.com/ryz310/pr_comet.git' }
 
       it 'returns the github repository name' do
-        expect(client.repository).to eq 'ryz310/rubocop_challenger'
+        expect(client.repository).to eq 'ryz310/pr_comet'
       end
     end
 
     context 'when use git protocol to the git remote URL' do
-      let(:remote_url) { 'git@github.com:ryz310/rubocop_challenger.git' }
+      let(:remote_url) { 'git@github.com:ryz310/pr_comet.git' }
 
       it 'returns the github repository name' do
-        expect(client.repository).to eq 'ryz310/rubocop_challenger'
+        expect(client.repository).to eq 'ryz310/pr_comet'
       end
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe PrComet::Github::Client do
       create_pull_request
       expect(octokit_mock)
         .to have_received(:create_pull_request)
-        .with('ryz310/rubocop_challenger', 'base', 'head', 'title', 'body')
+        .with('ryz310/pr_comet', 'base', 'head', 'title', 'body')
     end
 
     it 'returns created pull request number' do
@@ -60,7 +60,7 @@ RSpec.describe PrComet::Github::Client do
       add_labels
       expect(octokit_mock)
         .to have_received(:add_labels_to_an_issue)
-        .with('ryz310/rubocop_challenger', 1234, ['label a', 'label b'])
+        .with('ryz310/pr_comet', 1234, ['label a', 'label b'])
     end
   end
 end
