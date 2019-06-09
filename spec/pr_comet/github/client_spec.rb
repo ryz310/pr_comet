@@ -88,7 +88,7 @@ RSpec.describe PrComet::Github::Client do
       it 'adds the issue to the GitHub Project' do
         add_to_project
         expect(octokit_mock).to have_received(:create_project_card)
-          .with(1, content_id: 1234, content_type: 'Issue')
+          .with(1, content_id: 1234, content_type: 'PullRequest')
       end
     end
 
@@ -110,7 +110,7 @@ RSpec.describe PrComet::Github::Client do
       it 'adds the issue to the GitHub Project' do
         add_to_project
         expect(octokit_mock).to have_received(:create_project_card)
-          .with(2, content_id: 1234, content_type: 'Issue')
+          .with(2, content_id: 1234, content_type: 'PullRequest')
       end
     end
   end

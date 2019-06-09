@@ -49,7 +49,7 @@ class PrComet
         client.create_project_card(
           column_id,
           content_id: issue_number,
-          content_type: 'Issue'
+          content_type: 'PullRequest'
         )
       rescue Octokit::Error => e
         raise "Failed to add a pull request to the project: #{e.message}"
