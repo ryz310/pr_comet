@@ -18,16 +18,18 @@ class PrComet
       # @param title [String] Title for the pull request
       # @param body [String] The body for the pull request
       # @return [Integer] Created pull request number
+      # @see http://octokit.github.io/octokit.rb/Octokit/Client/PullRequests.html#create_pull_request-instance_method
       def create_pull_request(base:, head:, title:, body:)
         response =
           client.create_pull_request(repository, base, head, title, body)
         response.number
       end
 
-      # Description of #add_labels
+      # Add labels to the issue.
       #
       # @param issue_number [Integer] Number ID of the issue (or pull request)
       # @param labels [Array<String>] An array of labels to apply to this Issue
+      # @see http://octokit.github.io/octokit.rb/Octokit/Client/Labels.html#add_labels_to_an_issue-instance_method
       def add_labels(issue_number, *labels)
         client.add_labels_to_an_issue(repository, issue_number, labels)
       end
