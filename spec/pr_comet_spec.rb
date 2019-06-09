@@ -26,7 +26,8 @@ RSpec.describe PrComet do
       PrComet::Github::Client,
       create_pull_request: 1234,
       repository: 'ryz310/rubocop_challenger',
-      add_labels: ''
+      add_labels: '',
+      add_to_project: ''
     )
   end
 
@@ -70,11 +71,15 @@ RSpec.describe PrComet do
       pr_comet.create!(
         title: 'The pull request title',
         body: 'The pull request body',
-        labels: labels
+        labels: labels,
+        project_column_name: project_column_name,
+        project_id: project_id
       )
     end
 
     let(:labels) { nil }
+    let(:project_column_name) { nil }
+    let(:project_id) { nil }
 
     shared_examples 'to call create pull request API' do
       let(:expected_parameters) do
@@ -148,6 +153,41 @@ RSpec.describe PrComet do
         it do
           create!
           expect(github_client).not_to have_received(:add_labels)
+        end
+      end
+    end
+
+    context 'with project_column_name option' do
+      let(:project_column_name) { 'Column name' }
+
+      context 'with project_id' do
+        let(:project_id) { 456 }
+
+        it_behaves_like 'to call create pull request API' do
+          it do
+            create!
+            expect(github_client).to have_received(:add_to_project)
+              .with(1234, column_name: 'Column name', project_id: 456)
+          end
+        end
+      end
+
+      context 'without project_id' do
+        it_behaves_like 'to call create pull request API' do
+          it do
+            create!
+            expect(github_client).to have_received(:add_to_project)
+              .with(1234, column_name: 'Column name', project_id: nil)
+          end
+        end
+      end
+    end
+
+    context 'without project_column_name option' do
+      it_behaves_like 'to call create pull request API' do
+        it do
+          create!
+          expect(github_client).not_to have_received(:add_to_project)
         end
       end
     end
