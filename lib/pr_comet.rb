@@ -2,6 +2,7 @@
 
 require 'English'
 require 'octokit'
+require 'rainbow'
 require 'pr_comet/version'
 require 'pr_comet/errors'
 require 'pr_comet/command_line'
@@ -46,9 +47,19 @@ class PrComet
   #
   # @param title [String] Title for the pull request
   # @param body [String] The body for the pull request
-  # @param labels [Array<String>] An array of labels to apply to this PR
-  # @return [Boolean] Return true if its successed
-  def create!(title:, body:, labels: nil)
+  # @param labels [Array<String>]
+  #   List of labels. It is a optional parameter. You can add labels to the
+  #   created PR.
+  # @param project_column_name [String]
+  #   A project column name. It is a optional parameter. You can add the created
+  #   PR to the GitHub project.
+  # @param project_id [Integer]
+  #   A target project ID. It is a optional parameter. If does not supplied,
+  #   this method will find a project which associated the repository.
+  #   When the repository has multiple projects, you should supply this.
+  # @return [Boolean] Return true if it is successed.
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+  def create!(title:, body:, labels: nil, project_column_name: nil, project_id: nil)
     return false unless git_condition_valid?
 
     git.push(github_token_url, topic_branch)
@@ -56,8 +67,14 @@ class PrComet
       base: base_branch, head: topic_branch, title: title, body: body
     )
     github.add_labels(pr_number, *labels) unless labels.nil?
+    unless project_column_name.nil?
+      github.add_to_project(
+        pr_number, column_name: project_column_name, project_id: project_id
+      )
+    end
     true
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
 
   private
 
