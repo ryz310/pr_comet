@@ -70,7 +70,9 @@ class PrComet
       # @param column_name [String] A target column name
       # @return [Integer, nil] Project column ID
       def get_project_column_id(project_id, column_name)
-        find_project_columns(project_id).find { |c| c.name == column_name }&.id
+        find_project_columns(project_id).find { |c| c.name == column_name }.id
+      rescue StandardError
+        raise "Cannot find the GitHub project column with #{column_name}"
       end
 
       # Returns the issue (or pull request) ID
