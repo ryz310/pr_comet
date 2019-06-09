@@ -10,11 +10,12 @@ RSpec.describe PrComet::Github::Client do
       Octokit::Client,
       create_pull_request: OpenStruct.new(number: 123),
       add_labels_to_an_issue: nil,
-      projects: [OpenStruct.new(id: 123)],
+      projects: [OpenStruct.new(id: 12_345)],
       project_columns: [
         OpenStruct.new(id: 1, name: 'Column A'),
         OpenStruct.new(id: 2, name: 'Column B')
       ],
+      pull_request: OpenStruct.new(id: 123_456_789),
       create_project_card: nil
     )
   end
@@ -85,10 +86,16 @@ RSpec.describe PrComet::Github::Client do
         expect(octokit_mock).to have_received(:project_columns).with(456)
       end
 
+      it 'searches a pull request ID from the pull request number' do
+        add_to_project
+        expect(octokit_mock).to have_received(:pull_request)
+          .with('ryz310/pr_comet', 1234)
+      end
+
       it 'adds the issue to the GitHub Project' do
         add_to_project
         expect(octokit_mock).to have_received(:create_project_card)
-          .with(1, content_id: 1234, content_type: 'PullRequest')
+          .with(1, content_id: 123_456_789, content_type: 'PullRequest')
       end
     end
 
@@ -104,13 +111,19 @@ RSpec.describe PrComet::Github::Client do
 
       it 'searches project columns with a default project ID' do
         add_to_project
-        expect(octokit_mock).to have_received(:project_columns).with(123)
+        expect(octokit_mock).to have_received(:project_columns).with(12_345)
+      end
+
+      it 'searches a pull request ID from the pull request number' do
+        add_to_project
+        expect(octokit_mock).to have_received(:pull_request)
+          .with('ryz310/pr_comet', 1234)
       end
 
       it 'adds the issue to the GitHub Project' do
         add_to_project
         expect(octokit_mock).to have_received(:create_project_card)
-          .with(2, content_id: 1234, content_type: 'PullRequest')
+          .with(2, content_id: 123_456_789, content_type: 'PullRequest')
       end
     end
   end

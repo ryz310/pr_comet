@@ -46,9 +46,10 @@ class PrComet
       def add_to_project(issue_number, column_name:, project_id: nil)
         project_id ||= default_project_id
         column_id = get_project_column_id(project_id, column_name)
+        issue_id = get_issue_id(issue_number)
         client.create_project_card(
           column_id,
-          content_id: issue_number,
+          content_id: issue_id,
           content_type: 'PullRequest'
         )
       rescue Octokit::Error => e
@@ -70,6 +71,14 @@ class PrComet
       # @return [Integer, nil] Project column ID
       def get_project_column_id(project_id, column_name)
         find_project_columns(project_id).find { |c| c.name == column_name }&.id
+      end
+
+      # Returns the issue (or pull request) ID
+      #
+      # @param issue_number [Integer] A target issue number
+      # @return [Integer] Issue ID
+      def get_issue_id(issue_number)
+        client.pull_request(repository, issue_number).id
       end
 
       # Finds a project id which associate with this repository.
