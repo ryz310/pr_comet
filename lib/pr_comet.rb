@@ -68,33 +68,40 @@ class PrComet
   #   want to create a blank PR, set "false" to this option. default: true.
   # @return [Boolean]
   #   Return true if it is successed.
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def create!(**options)
     options[:validate] = true if options[:validate].nil?
     return false if options[:validate] && !git_condition_valid?
 
     git.push(github_token_url, topic_branch)
-    pr_number = github.create_pull_request(
-      base: base_branch,
-      head: topic_branch,
-      title: options[:title],
-      body: options[:body]
-    )
+    pr_number = github.create_pull_request(generate_create_pr_options(options))
     github.add_labels(pr_number, *options[:labels]) unless options[:labels].nil?
     unless options[:project_column_name].nil?
-      github.add_to_project(
-        pr_number,
-        column_name: options[:project_column_name],
-        project_id: options[:project_id]
-      )
+      github.add_to_project(pr_number, generate_add_to_project_options(options))
     end
     true
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   private
 
   attr_reader :git, :github, :base_branch, :topic_branch, :initial_sha1
+
+  def generate_create_pr_options(**options)
+    {
+      base: base_branch,
+      head: topic_branch,
+      title: options[:title],
+      body: options[:body]
+    }
+  end
+
+  def generate_add_to_project_options(**options)
+    {
+      column_name: options[:project_column_name],
+      project_id: options[:project_id]
+    }
+  end
 
   def git_condition_valid?
     !git.current_sha1?(initial_sha1) && git.current_branch?(topic_branch)
