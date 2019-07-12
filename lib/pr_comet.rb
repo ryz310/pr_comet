@@ -42,43 +42,66 @@ class PrComet
     result
   end
 
-  # Create a pull request
-  # You should call #commit before calling this method
+  # Create a pull request. You should call #commit before calling this method.
+  # If you want to create a blank PR, you can do it with `validate: false`
+  # option.
   #
-  # @param title [String] Title for the pull request
-  # @param body [String] The body for the pull request
-  # @param labels [Array<String>]
+  # @param options [Hash]
+  #   Options for the PR creation.
+  # @option title [String]
+  #   The title for the pull request
+  # @option body [String]
+  #   The body for the pull request
+  # @option labels [Array<String>]
   #   List of labels. It is a optional parameter. You can add labels to the
   #   created PR.
-  # @param project_column_name [String]
+  # @option project_column_name [String]
   #   A project column name. It is a optional parameter. You can add the created
   #   PR to the GitHub project.
-  # @param project_id [Integer]
+  # @option project_id [Integer]
   #   A target project ID. It is a optional parameter. If does not supplied,
   #   this method will find a project which associated the repository.
-  #   When the repository has multiple projects, you should supply this.
-  # @return [Boolean] Return true if it is successed.
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
-  def create!(title:, body:, labels: nil, project_column_name: nil, project_id: nil)
-    return false unless git_condition_valid?
+  #   When the repository is associated with multiple projects, you should
+  #   supply this.
+  # @option validate [Boolean]
+  #   Verifies the branch has commits and checkout to the topic branch. If you
+  #   want to create a blank PR, set "false" to this option. default: true.
+  # @return [Boolean]
+  #   Return true if it is successed.
+  # rubocop:disable Metrics/AbcSize
+  def create!(**options)
+    options[:validate] = true if options[:validate].nil?
+    return false if options[:validate] && !git_condition_valid?
 
     git.push(github_token_url, topic_branch)
-    pr_number = github.create_pull_request(
-      base: base_branch, head: topic_branch, title: title, body: body
-    )
-    github.add_labels(pr_number, *labels) unless labels.nil?
-    unless project_column_name.nil?
-      github.add_to_project(
-        pr_number, column_name: project_column_name, project_id: project_id
-      )
+    pr_number = github.create_pull_request(generate_create_pr_options(options))
+    github.add_labels(pr_number, *options[:labels]) unless options[:labels].nil?
+    unless options[:project_column_name].nil?
+      github.add_to_project(pr_number, generate_add_to_project_options(options))
     end
     true
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
+  # rubocop:enable Metrics/AbcSize
 
   private
 
   attr_reader :git, :github, :base_branch, :topic_branch, :initial_sha1
+
+  def generate_create_pr_options(**options)
+    {
+      base: base_branch,
+      head: topic_branch,
+      title: options[:title],
+      body: options[:body]
+    }
+  end
+
+  def generate_add_to_project_options(**options)
+    {
+      column_name: options[:project_column_name],
+      project_id: options[:project_id]
+    }
+  end
 
   def git_condition_valid?
     !git.current_sha1?(initial_sha1) && git.current_branch?(topic_branch)
