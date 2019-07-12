@@ -42,11 +42,14 @@ class PrComet
     result
   end
 
-  # Create a pull request
-  # You should call #commit before calling this method
+  # Create a pull request. You should call #commit before calling this method.
+  # If you want to create a blank PR, you can do it with `validate: false`
+  # option.
   #
-  # @param title [String] Title for the pull request
-  # @param body [String] The body for the pull request
+  # @param title [String]
+  #   The title for the pull request
+  # @param body [String]
+  #   The body for the pull request
   # @param labels [Array<String>]
   #   List of labels. It is a optional parameter. You can add labels to the
   #   created PR.
@@ -56,11 +59,16 @@ class PrComet
   # @param project_id [Integer]
   #   A target project ID. It is a optional parameter. If does not supplied,
   #   this method will find a project which associated the repository.
-  #   When the repository has multiple projects, you should supply this.
-  # @return [Boolean] Return true if it is successed.
+  #   When the repository is associated with multiple projects, you should
+  #   supply this.
+  # @param validate [Boolean]
+  #   Verifies the branch has commits and checkout to the topic branch. If you
+  #   want to create a blank PR, set "false" to this option. default: true.
+  # @return [Boolean]
+  #   Return true if it is successed.
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/LineLength
-  def create!(title:, body:, labels: nil, project_column_name: nil, project_id: nil)
-    return false unless git_condition_valid?
+  def create!(title:, body:, labels: nil, project_column_name: nil, project_id: nil, validate: true)
+    return false if validate && !git_condition_valid?
 
     git.push(github_token_url, topic_branch)
     pr_number = github.create_pull_request(

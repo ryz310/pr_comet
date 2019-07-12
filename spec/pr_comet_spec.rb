@@ -73,13 +73,15 @@ RSpec.describe PrComet do
         body: 'The pull request body',
         labels: labels,
         project_column_name: project_column_name,
-        project_id: project_id
+        project_id: project_id,
+        validate: validate
       )
     end
 
     let(:labels) { nil }
     let(:project_column_name) { nil }
     let(:project_id) { nil }
+    let(:validate) { true }
 
     shared_examples 'to call create pull request API' do
       let(:expected_parameters) do
@@ -198,7 +200,15 @@ RSpec.describe PrComet do
           .to receive(:current_sha1?).with('1234567890').and_return(true)
       end
 
-      it_behaves_like 'not to call create pull request API'
+      context 'with "validate false" option' do
+        let(:validate) { false }
+
+        it_behaves_like 'to call create pull request API'
+      end
+
+      context 'without "validate" option' do
+        it_behaves_like 'not to call create pull request API'
+      end
     end
 
     context 'when no checkout' do
@@ -207,7 +217,15 @@ RSpec.describe PrComet do
           .to receive(:current_branch?).with('topic_branch').and_return(false)
       end
 
-      it_behaves_like 'not to call create pull request API'
+      context 'with "validate false" option' do
+        let(:validate) { false }
+
+        it_behaves_like 'to call create pull request API'
+      end
+
+      context 'without "validate" option' do
+        it_behaves_like 'not to call create pull request API'
+      end
     end
   end
 
