@@ -48,9 +48,10 @@ commands:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
   run_rspec:
+    description: Run RSpec
     steps:
       - run:
-          name: Run Rspec
+          name: Execute RSpec
           command: |
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
@@ -61,13 +62,17 @@ commands:
                               --out /tmp/test-results/rspec.xml \
                               $TEST_FILES
             ./tmp/cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
-  build:
+  setup:
+    description: Setup for Job Working
     steps:
       - checkout
-      - download_cc_test_reporter
       - restore_bundle_install_cache
       - bundle_install
       - save_bundle_install_cache
+  test_and_build:
+    description: Build the RubyGem
+    steps:
+      - download_cc_test_reporter
       - run_rspec
       - store_test_results:
           path: /tmp/test-results
@@ -80,18 +85,13 @@ commands:
             bundle exec rake build
   rubocop:
     steps:
-      - checkout
-      - restore_bundle_install_cache
-      - bundle_install
-      - save_bundle_install_cache
-      - run: bundle exec rubocop
+      - run:
+          name: Run RuboCop
+          command: bundle exec rubocop
   yardoc:
+    description: 'Generate YARDoc'
     steps:
-      - checkout
-      - restore_bundle_install_cache
-      - bundle_install
-      - save_bundle_install_cache
-      - run:  bundle exec yardoc -o ./yardoc
+      - run: bundle exec yardoc -o ./yardoc
       - store_artifacts:
           path: ./yardoc
           destination: yardoc
@@ -104,14 +104,17 @@ jobs:
       name: default
       ruby_version: << parameters.ruby_version >>
     steps:
-      - build
+      - setup
+      - test_and_build
   rubocop:
     executor: default
     steps:
+      - setup
       - rubocop
   yardoc:
     executor: default
     steps:
+      - setup
       - yardoc
   rubocop_challenge:
     executor: default
@@ -125,10 +128,7 @@ jobs:
   release:
     executor: default
     steps:
-      - checkout
-      - restore_bundle_install_cache
-      - bundle_install
-      - save_bundle_install_cache
+      - setup
       - run:
           name: Create Rubygems Credentials
           command: |
