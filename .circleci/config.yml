@@ -39,7 +39,15 @@ commands:
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
                               $TEST_FILES
-            cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
+      - code-climate/format-coverage:
+          input-type: simplecov
+          prefix: $(readlink -f .)
+          coverage-file: coverage/.resultset.json
+          output: coverage/codeclimate.$CIRCLE_BUILD_NUM.json
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
@@ -85,6 +93,16 @@ jobs:
       - setup:
           ruby_version: << parameters.ruby_version >>
       - test_and_build
+  upload-coverage:
+    executor: default
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - code-climate/install
+      - code-climate/sum-coverage:
+          input: codeclimate.*.json
+          parts: 4
+      - code-climate/upload-coverage
   rubocop:
     executor: default
     steps:
@@ -139,6 +157,12 @@ workflows:
           ruby_version: 'latest'
       - rubocop
       - yardoc
+      - upload-coverage:
+          requires:
+            - build_on_ruby_2.4
+            - build_on_ruby_2.5
+            - build_on_ruby_2.6
+            - build_on_ruby_latest
       - release:
           context: RubyGems API Key
           requires:
