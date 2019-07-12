@@ -71,8 +71,6 @@ class PrComet
       # @return [Integer, nil] Project column ID
       def get_project_column_id(project_id, column_name)
         find_project_columns(project_id).find { |c| c.name == column_name }.id
-      rescue StandardError
-        raise "Cannot find the GitHub project column with '#{column_name}'"
       end
 
       # Returns the issue (or pull request) ID
@@ -91,8 +89,6 @@ class PrComet
       # @see http://octokit.github.io/octokit.rb/Octokit/Client/Projects.html#projects-instance_method
       def default_project_id
         client.projects(repository).first.id
-      rescue Octokit::Error
-        raise 'Project does not found on this repository'
       end
 
       # Finds project columns with supplied project ID.
@@ -102,8 +98,6 @@ class PrComet
       # @see http://octokit.github.io/octokit.rb/Octokit/Client/Projects.html#project_columns-instance_method
       def find_project_columns(project_id)
         client.project_columns(project_id)
-      rescue Octokit::Error
-        raise "Project columns does not found at project_id:#{project_id}"
       end
     end
   end
