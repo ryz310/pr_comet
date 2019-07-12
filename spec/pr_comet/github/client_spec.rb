@@ -71,10 +71,24 @@ RSpec.describe PrComet::Github::Client do
   end
 
   describe '#add_to_project' do
+    shared_examples 'notify that an error has occurred' do
+      before do
+        allow(octokit_mock)
+          .to receive(:create_project_card).and_raise(Octokit::Error)
+      end
+
+      it do
+        expect { add_to_project }
+          .to raise_error(/Failed to add a pull request to the project/)
+      end
+    end
+
     context 'with project_id' do
       subject(:add_to_project) do
         client.add_to_project(1234, column_name: 'Column A', project_id: 456)
       end
+
+      it_behaves_like 'notify that an error has occurred'
 
       it 'does not search project ID with the Octokit' do
         add_to_project
@@ -103,6 +117,8 @@ RSpec.describe PrComet::Github::Client do
       subject(:add_to_project) do
         client.add_to_project(1234, column_name: 'Column B')
       end
+
+      it_behaves_like 'notify that an error has occurred'
 
       it 'searches default project ID with the Octokit' do
         add_to_project
