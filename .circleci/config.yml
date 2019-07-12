@@ -53,22 +53,6 @@ commands:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
-  setup:
-    description: Setup for Job Working
-    parameters:
-      <<: *ruby_version
-    steps:
-      - checkout
-      - ruby-orbs/bundle-install:
-          cache_key_prefix: v1-dependencies-<< parameters.ruby_version >>
-  test_and_build:
-    description: Build the RubyGem
-    steps:
-      - run_rspec
-      - run:
-          name: Rake Build
-          command: |
-            bundle exec rake build
   rubocop:
     steps:
       - run:
@@ -81,6 +65,45 @@ commands:
       - store_artifacts:
           path: ./yardoc
           destination: yardoc
+  rake_build:
+    steps:
+      - run:
+          name: Rake Build
+          command: bundle exec rake build
+  rubocop_challenge:
+    steps:
+      - run:
+          name: Rubocop Challenge
+          command: |
+            gem install rubocop_challenger --pre
+            rubocop_challenger go --email=ryz310@gmail.com --name=ryz310
+  release:
+    description: Release to RubyGems.org
+    steps:
+      - run:
+          name: Create Rubygems Credentials
+          command: |
+            mkdir ~/.gem || true
+            echo -e "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
+            chmod 0600 ~/.gem/credentials
+      - run:
+          name: Release Gem
+          command: |
+            git push --set-upstream origin ${CIRCLE_BRANCH}
+            bundle exec rake release --trace
+  setup:
+    description: Setup for Job Working
+    parameters:
+      <<: *ruby_version
+    steps:
+      - checkout
+      - ruby-orbs/bundle-install:
+          cache_key_prefix: v1-dependencies-<< parameters.ruby_version >>
+  test_and_build:
+    description: Build the RubyGem
+    steps:
+      - run_rspec
+      - rake_build
 
 jobs:
   build:
@@ -117,26 +140,12 @@ jobs:
     executor: default
     steps:
       - checkout
-      - run:
-          name: Rubocop Challenge
-          command: |
-            gem install rubocop_challenger --pre
-            rubocop_challenger go --email=ryz310@gmail.com --name=ryz310
+      - rubocop_challenge
   release:
     executor: default
     steps:
       - setup
-      - run:
-          name: Create Rubygems Credentials
-          command: |
-            mkdir ~/.gem
-            echo -e "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
-            chmod 0600 ~/.gem/credentials
-      - run:
-          name: Release Gem
-          command: |
-            git push --set-upstream origin ${CIRCLE_BRANCH}
-            bundle exec rake release --trace
+      - release
 
 workflows:
   version: 2
