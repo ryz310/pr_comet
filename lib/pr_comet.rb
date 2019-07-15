@@ -23,7 +23,10 @@ class PrComet
     @base_branch = base
     @topic_branch = branch
     @git = Git::Command.new(user_name: user_name, user_email: user_email)
-    @github = Github::Client.new(access_token, git.remote_url('origin'))
+    remote_url = git.remote_url('origin')
+    raise 'Your git remote "origin" URL is not set.' if remote_url.nil?
+
+    @github = Github::Client.new(access_token, remote_url)
     @initial_sha1 = git.current_sha1
   end
 
