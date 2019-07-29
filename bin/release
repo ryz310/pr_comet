@@ -13,7 +13,7 @@ release_pr = PrComet.new(base: 'production', branch: 'master')
 
 # Verifying
 abort 'usage: bin/release VERSION' if version.nil?
-abort 'A version must be like a `1.2.3`' unless version =~ VERSION_FORMAT
+abort 'A version must be like a `1.2.3`' unless VERSION_FORMAT.match?(version)
 
 # Modify a version file
 update_pr.commit ':comet: Update version' do
