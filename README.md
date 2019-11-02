@@ -2,9 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/ryz310/pr_comet.svg?style=svg)](https://circleci.com/gh/ryz310/pr_comet) [![Gem Version](https://badge.fury.io/rb/pr_comet.svg)](https://badge.fury.io/rb/pr_comet) [![Maintainability](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/maintainability)](https://codeclimate.com/github/ryz310/pr_comet/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/test_coverage)](https://codeclimate.com/github/ryz310/pr_comet/test_coverage)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pr_comet`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A helper library that makes it easy to create pull requests.
 
 ## Installation
 
@@ -24,7 +22,28 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# Initialize.
+pr_comet = PrComet.new(base: 'master', branch: '{branch name}')
+
+# Modify arbitrary files and commit into the block.
+pr_comet.commit '{commit message}' do
+  file = File.read('path/to/file')
+  file.sub!('hoge', 'fuga')
+  File.write('path/to/file', file)
+end
+
+# You can also change files outer the block.
+`bundle update`
+pr_comet.commit '$ bundle update'
+
+# Create a new pull request.
+pr_comet.create!(
+  title: 'New pull request',
+  body: '{New pull request body}',
+  labels: ['label 1', 'label 2'] # optional
+)
+```
 
 ## Development
 
