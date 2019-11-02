@@ -3,24 +3,27 @@
 ## v0.3.1 (Nov 02, 2019)
 
 ### Feature
-### Bugfix
-### Breaking Change
-### Misc
+
+* [#60](https://github.com/ryz310/pr_comet/pull/60) Stub pr comet ([@ryz310](https://github.com/ryz310))
+
+### RuboCop
 
 * [#37](https://github.com/ryz310/pr_comet/pull/37) Re-generate .rubocop_todo.yml with RuboCop v0.73.0 ([@ryz310](https://github.com/ryz310))
 * [#38](https://github.com/ryz310/pr_comet/pull/38) Performance/RegexpMatch-20190729233036 ([@ryz310](https://github.com/ryz310))
 * [#39](https://github.com/ryz310/pr_comet/pull/39) Re-generate .rubocop_todo.yml with RuboCop v0.74.0 ([@ryz310](https://github.com/ryz310))
+* [#45](https://github.com/ryz310/pr_comet/pull/45) Re-generate .rubocop_todo.yml with RuboCop v0.75.0 ([@ryz310](https://github.com/ryz310))
+* [#50](https://github.com/ryz310/pr_comet/pull/50) Re-generate .rubocop_todo.yml with RuboCop v0.75.1 ([@ryz310](https://github.com/ryz310))
+* [#55](https://github.com/ryz310/pr_comet/pull/55) Re-generate .rubocop_todo.yml with RuboCop v0.76.0 ([@ryz310](https://github.com/ryz310))
+
+### Misc
+
 * [#44](https://github.com/ryz310/pr_comet/pull/44) Bump rubocop-rspec from 1.34.1 to 1.36.0 ([@ryz310](https://github.com/ryz310))
 * [#40](https://github.com/ryz310/pr_comet/pull/40) ryz310/dependabot/bundler/simplecov-0.17.1 ([@ryz310](https://github.com/ryz310))
 * [#43](https://github.com/ryz310/pr_comet/pull/43) ryz310/dependabot/bundler/rake-tw-13.0 ([@ryz310](https://github.com/ryz310))
-* [#45](https://github.com/ryz310/pr_comet/pull/45) Re-generate .rubocop_todo.yml with RuboCop v0.75.0 ([@ryz310](https://github.com/ryz310))
 * [#48](https://github.com/ryz310/pr_comet/pull/48) ryz310/dependabot/bundler/rspec-3.9.0 ([@ryz310](https://github.com/ryz310))
 * [#47](https://github.com/ryz310/pr_comet/pull/47) ryz310/dependabot/bundler/rubocop-performance-1.5.0 ([@ryz310](https://github.com/ryz310))
-* [#50](https://github.com/ryz310/pr_comet/pull/50) Re-generate .rubocop_todo.yml with RuboCop v0.75.1 ([@ryz310](https://github.com/ryz310))
-* [#55](https://github.com/ryz310/pr_comet/pull/55) Re-generate .rubocop_todo.yml with RuboCop v0.76.0 ([@ryz310](https://github.com/ryz310))
 * [#53](https://github.com/ryz310/pr_comet/pull/53) Configure Renovate ([@ryz310](https://github.com/ryz310))
 * [#56](https://github.com/ryz310/pr_comet/pull/56) Update ruby-orbs orb to v1.4.4 ([@ryz310](https://github.com/ryz310))
-* [#60](https://github.com/ryz310/pr_comet/pull/60) Stub pr comet ([@ryz310](https://github.com/ryz310))
 * [#61](https://github.com/ryz310/pr_comet/pull/61) Install gem_comet :comet: ([@ryz310](https://github.com/ryz310))
 
 ## v0.3.0 (Jul 12, 2019)
