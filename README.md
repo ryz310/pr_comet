@@ -45,6 +45,55 @@ pr_comet.create!(
 )
 ```
 
+## Rspec
+
+### Testing
+
+You can stub `PrComet` class for testing.
+Add the following code to `spec/spec_helper`:
+
+```ruby
+require 'pr_comet/rspec'
+```
+
+Then you can use `#stub_pr_comet!`.
+It makes `PrComet` class to stubbing and `PrComet.new` will return stubbed `PrComet` instance.
+The stubbed `PrComet#commit` does not execute `$ git commit`, but it executes given block code.
+
+```ruby
+def create_pr
+  pr_comet = PrComet.new(base: 'master', branch: 'any-branch') # stubbed.
+  pr_comet.commit 'Hello world.' do # stubbed.
+    File.write('path/to/file.txt', 'Hello world.') # not stubbed.
+  end
+  pr_comet.create!(title: 'New pull request') # stubbed.
+end
+
+stub_pr_comet!
+allow(File).to receive(:write)
+create_pr
+expect(File).to have_received(:write).with('path/to/file.txt', 'Hello world.')
+```
+
+If you want to test about `PrComet`, you can use `#stub_pr_comet!` return value.
+It returns any instance of `PrComet`.
+
+```ruby
+def create_pr
+  pr_comet = PrComet.new(base: 'master', branch: 'any-branch')
+  pr_comet.commit 'commit message' do
+    # ...
+  end
+  pr_comet.create!(title: 'New pull request')
+end
+
+pr_comet = stub_pr_comet!
+create_pr
+expect(PrComet).to have_received(:new).with(base: 'master', branch: 'any-branch')
+expect(pr_comet).to have_received(:commit).with('commit message')
+expect(pr_comet).to have_received(:create!).with(title: 'New pull request')
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
