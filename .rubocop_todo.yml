@@ -17,9 +17,3 @@ Performance/StartWith:
 RSpec/LeakyConstantDeclaration:
   Exclude:
     - 'spec/pr_comet/command_line_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/IfUnlessModifier:
-  Exclude:
-    - 'lib/pr_comet.rb'
