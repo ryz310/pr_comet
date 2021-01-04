@@ -74,9 +74,11 @@ class PrComet
     return false if options[:validate] && !git_condition_valid?
 
     git.push(github_token_url, topic_branch)
-    pr_number = github.create_pull_request(generate_create_pr_options(options))
+    pr_number = github.create_pull_request(**generate_create_pr_options(**options))
     github.add_labels(pr_number, *options[:labels]) unless options[:labels].nil?
-    github.add_to_project(pr_number, generate_add_to_project_options(options)) unless options[:project_column_name].nil?
+    unless options[:project_column_name].nil?
+      github.add_to_project(pr_number, **generate_add_to_project_options(**options))
+    end
     true
   end
   # rubocop:enable Metrics/AbcSize
