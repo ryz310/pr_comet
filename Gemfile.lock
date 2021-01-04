@@ -20,7 +20,6 @@ GEM
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
     faraday-net_http (1.0.0)
-    json (2.5.1)
     method_source (1.0.0)
     multipart-post (2.1.1)
     octokit (4.20.0)
@@ -77,11 +76,12 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
-    simplecov (0.17.1)
+    simplecov (0.21.1)
       docile (~> 1.1)
-      json (>= 1.8, < 3)
-      simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.2)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.2)
     unicode-display_width (1.7.0)
     yard (0.9.26)
 
@@ -98,7 +98,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rspec
-  simplecov (= 0.17.1)
+  simplecov (= 0.21.1)
   yard
 
 BUNDLED WITH
