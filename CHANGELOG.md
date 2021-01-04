@@ -1,12 +1,41 @@
 # Change log
 
+## v0.4.0 (Jan 04, 2021)
+
+### Breaking Change
+
+* [#176](https://github.com/ryz310/pr_comet/pull/176) End of support for Ruby 2.4 ([@ryz310](https://github.com/ryz310))
+* [#210](https://github.com/ryz310/pr_comet/pull/210) Support ruby 3.0 ([@ryz310](https://github.com/ryz310))
+
+### Rubocop Challenge
+
+* [#127](https://github.com/ryz310/pr_comet/pull/127) Style/IfUnlessModifier-20200523233029 ([@ryz310](https://github.com/ryz310))
+* [#129](https://github.com/ryz310/pr_comet/pull/129) Performance/StartWith-20200525233033 ([@ryz310](https://github.com/ryz310))
+* [#204](https://github.com/ryz310/pr_comet/pull/204) Re-generate .rubocop_todo.yml with RuboCop v1.7.0 ([@ryz310](https://github.com/ryz310))
+
+### Dependabot
+
+* [#110](https://github.com/ryz310/pr_comet/pull/110) ryz310/dependabot/bundler/pry-byebug-3.9.0 ([@ryz310](https://github.com/ryz310))
+* [#174](https://github.com/ryz310/pr_comet/pull/174) ryz310/dependabot/bundler/rspec-3.10.0 ([@ryz310](https://github.com/ryz310))
+* [#198](https://github.com/ryz310/pr_comet/pull/198) ryz310/dependabot/bundler/rubocop-1.6.1 ([@ryz310](https://github.com/ryz310))
+* [#201](https://github.com/ryz310/pr_comet/pull/201) ryz310/dependabot/bundler/rubocop-rspec-2.1.0 ([@ryz310](https://github.com/ryz310))
+* [#202](https://github.com/ryz310/pr_comet/pull/202) ryz310/dependabot/bundler/rake-13.0.2 ([@ryz310](https://github.com/ryz310))
+* [#205](https://github.com/ryz310/pr_comet/pull/205) ryz310/dependabot/bundler/yard-0.9.26 ([@ryz310](https://github.com/ryz310))
+* [#206](https://github.com/ryz310/pr_comet/pull/206) ryz310/dependabot/bundler/octokit-4.20.0 ([@ryz310](https://github.com/ryz310))
+* [#209](https://github.com/ryz310/pr_comet/pull/209) ryz310/dependabot/bundler/rubocop-performance-1.9.2 ([@ryz310](https://github.com/ryz310))
+
+### Misc
+
+* [#91](https://github.com/ryz310/pr_comet/pull/91) Update ruby-orbs orb to v1.6.0 ([@ryz310](https://github.com/ryz310))
+* [#111](https://github.com/ryz310/pr_comet/pull/111) Edit dependabot configuration ([@ryz310](https://github.com/ryz310))
+
 ## v0.3.1 (Nov 02, 2019)
 
 ### Feature
 
 * [#60](https://github.com/ryz310/pr_comet/pull/60) Stub pr comet ([@ryz310](https://github.com/ryz310))
 
-### RuboCop
+### Rubocop Challenge
 
 * [#37](https://github.com/ryz310/pr_comet/pull/37) Re-generate .rubocop_todo.yml with RuboCop v0.73.0 ([@ryz310](https://github.com/ryz310))
 * [#38](https://github.com/ryz310/pr_comet/pull/38) Performance/RegexpMatch-20190729233036 ([@ryz310](https://github.com/ryz310))
