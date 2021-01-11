@@ -13,16 +13,16 @@ require 'pr_comet/github/client'
 class PrComet
   # @note You have to set ENV['GITHUB_ACCESS_TOKEN']
   # @param base [String] The branch you want your changes pulled into
-  # @param branch [String] The branch where your changes are going to
-  #                        implement.
+  # @param branch [String] The branch where your changes are going to implement.
   # @param user_name [String] The username to use for committer and author
   # @param user_email [String] The email to use for committer and author
-  def initialize(base:, branch:, user_name: nil, user_email: nil)
+  # @param verbose [Boolean] Displays executing commands
+  def initialize(base:, branch:, user_name: nil, user_email: nil, verbose: false)
     raise "You have to set ENV['GITHUB_ACCESS_TOKEN']" if access_token.nil?
 
     @base_branch = base
     @topic_branch = branch
-    @git = Git::Command.new(user_name: user_name, user_email: user_email)
+    @git = Git::Command.new(user_name: user_name, user_email: user_email, verbose: verbose)
     @github = Github::Client.new(access_token, git.remote_url('origin'))
     @initial_sha1 = git.current_sha1
   end
@@ -74,9 +74,11 @@ class PrComet
     return false if options[:validate] && !git_condition_valid?
 
     git.push(github_token_url, topic_branch)
-    pr_number = github.create_pull_request(generate_create_pr_options(options))
+    pr_number = github.create_pull_request(**generate_create_pr_options(**options))
     github.add_labels(pr_number, *options[:labels]) unless options[:labels].nil?
-    github.add_to_project(pr_number, generate_add_to_project_options(options)) unless options[:project_column_name].nil?
+    unless options[:project_column_name].nil?
+      github.add_to_project(pr_number, **generate_add_to_project_options(**options))
+    end
     true
   end
   # rubocop:enable Metrics/AbcSize
