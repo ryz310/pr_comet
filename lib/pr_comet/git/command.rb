@@ -6,9 +6,10 @@ class PrComet
     class Command
       include CommandLine
 
-      def initialize(user_name: nil, user_email: nil)
+      def initialize(user_name: nil, user_email: nil, verbose: false)
         @user_name = user_name
         @user_email = user_email
+        @verbose = verbose
       end
 
       def user_name
