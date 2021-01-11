@@ -1,5 +1,16 @@
 # Change log
 
+## v0.5.1 (Jan 11, 2021)
+
+### Bugfix
+
+* [#220](https://github.com/ryz310/pr_comet/pull/220) Fix verbose option ([@ryz310](https://github.com/ryz310))
+
+### Dependabot
+
+* [#199](https://github.com/ryz310/pr_comet/pull/199) Update bundler requirement from ~> 1.16 to ~> 2.2 ([@ryz310](https://github.com/ryz310))
+* [#219](https://github.com/ryz310/pr_comet/pull/219) ryz310/dependabot/bundler/rubocop-1.8.1 ([@ryz310](https://github.com/ryz310))
+
 ## v0.5.0 (Jan 11, 2021)
 
 ### Feature
