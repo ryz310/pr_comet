@@ -4,10 +4,10 @@ require 'spec_helper'
 
 RSpec.describe PrComet::CommandLine do
   let(:command_line) do
-    class MockClass
+    mock_class = Class.new do
       include PrComet::CommandLine
     end
-    MockClass.new
+    mock_class.new
   end
 
   describe '#execute' do
