@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pr_comet (0.5.0)
+    pr_comet (0.5.1)
       octokit
       rainbow
 
