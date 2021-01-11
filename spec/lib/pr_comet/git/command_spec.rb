@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe PrComet::Git::Command do
   let(:command) { described_class.new(**params) }
   let(:params) do
-    { user_name: nil, user_email: nil }
+    { user_name: nil, user_email: nil, verbose: false }
   end
 
   before { allow(command).to receive(:execute) }
