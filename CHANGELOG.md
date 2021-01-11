@@ -1,5 +1,16 @@
 # Change log
 
+## v0.5.0 (Jan 11, 2021)
+
+### Feature
+### Bugfix
+### Breaking Change
+### Misc
+
+* [#215](https://github.com/ryz310/pr_comet/pull/215) Update simplecov requirement from = 0.17.1 to = 0.21.2 ([@ryz310](https://github.com/ryz310))
+* [#214](https://github.com/ryz310/pr_comet/pull/214) ryz310/dependabot/bundler/rubocop-1.8.0 ([@ryz310](https://github.com/ryz310))
+* [#216](https://github.com/ryz310/pr_comet/pull/216) Add verbose option ([@ryz310](https://github.com/ryz310))
+
 ## v0.4.0 (Jan 04, 2021)
 
 ### Breaking Change
