@@ -40,6 +40,10 @@ class PrComet
     git.add('.')
     git.commit(message)
     result
+  rescue PrComet::Errors::ExistUncommittedModify
+    git.status
+    puts `git status`
+    raise
   end
 
   # Create a pull request. You should call #commit before calling this method.
