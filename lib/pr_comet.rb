@@ -41,7 +41,6 @@ class PrComet
     git.commit(message)
     result
   rescue PrComet::Errors::ExistUncommittedModify
-    git.status
     puts `git status`
     raise
   end
