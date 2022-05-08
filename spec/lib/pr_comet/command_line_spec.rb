@@ -25,11 +25,8 @@ RSpec.describe PrComet::CommandLine do
           expect(execute).to eq 'Hello world'
         end
 
-        it 'outputs the command execution to stdout with color code GREEN' do
-          expect { execute }.to output(<<~STDOUT).to_stdout
-            $ echo Hello world
-            \e[32mHello world\e[0m
-          STDOUT
+        it 'outputs the command execution to stdout' do
+          expect { execute }.to output(/\$ echo Hello world/).to_stdout
         end
       end
 
@@ -40,11 +37,8 @@ RSpec.describe PrComet::CommandLine do
           expect(execute).to eq 'Hello world'
         end
 
-        it 'outputs the command execution to stdout with color code RED' do
-          expect { execute }.to output(<<~STDOUT).to_stdout
-            $ echo Hello world && false
-            \e[31mHello world\e[0m
-          STDOUT
+        it 'outputs the command execution to stdout' do
+          expect { execute }.to output(/\$ echo Hello world && false/).to_stdout
         end
       end
     end
