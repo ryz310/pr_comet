@@ -5,12 +5,12 @@ require:
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
 
 Metrics/BlockLength:
   Exclude:
-    - 'pr_comet.gemspec'
-    - 'spec/**/*'
+    - "pr_comet.gemspec"
+    - "spec/**/*"
 
 RSpec/NestedGroups:
   Max: 4
