@@ -1,5 +1,21 @@
 # Change log
 
+## v0.7.0 (Jul 14, 2022)
+
+### Breaking Change
+
+- [#347](https://github.com/ryz310/pr_comet/pull/347) End of support for Ruby 2.6 ([@ryz310](https://github.com/ryz310))
+
+### Rubocop Challenge
+
+- [#344](https://github.com/ryz310/pr_comet/pull/344) Re-generate .rubocop_todo.yml with RuboCop v1.31.2 ([@ryz310](https://github.com/ryz310))
+
+### Dependabot
+
+- [#333](https://github.com/ryz310/pr_comet/pull/333) Bump yard from 0.9.27 to 0.9.28 ([@ryz310](https://github.com/ryz310))
+- [#337](https://github.com/ryz310/pr_comet/pull/337) Bump rubocop-performance from 1.14.1 to 1.14.2 ([@ryz310](https://github.com/ryz310))
+- [#346](https://github.com/ryz310/pr_comet/pull/346) Bump octokit from 4.25.1 to 5.1.0 ([@ryz310](https://github.com/ryz310))
+
 ## v0.6.0 (May 08, 2022)
 
 ### Feature
