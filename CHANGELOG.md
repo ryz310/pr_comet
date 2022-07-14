@@ -1,5 +1,32 @@
 # Change log
 
+## v0.7.0 (Jul 14, 2022)
+
+### Feature
+### Bugfix
+### Security
+### Breaking Change
+### Rubocop Challenge
+### Dependabot
+### Misc
+
+* [#326](https://github.com/ryz310/pr_comet/pull/326) Re-generate .rubocop_todo.yml with RuboCop v1.29.0 ([@ryz310](https://github.com/ryz310))
+* [#327](https://github.com/ryz310/pr_comet/pull/327) Re-generate .rubocop_todo.yml with RuboCop v1.29.1 ([@ryz310](https://github.com/ryz310))
+* [#328](https://github.com/ryz310/pr_comet/pull/328) Bump rubocop-performance from 1.13.3 to 1.14.0 ([@ryz310](https://github.com/ryz310))
+* [#329](https://github.com/ryz310/pr_comet/pull/329) Bump octokit from 4.22.0 to 4.23.0 ([@ryz310](https://github.com/ryz310))
+* [#331](https://github.com/ryz310/pr_comet/pull/331) Re-generate .rubocop_todo.yml with RuboCop v1.30.0 ([@ryz310](https://github.com/ryz310))
+* [#333](https://github.com/ryz310/pr_comet/pull/333) Bump yard from 0.9.27 to 0.9.28 ([@ryz310](https://github.com/ryz310))
+* [#334](https://github.com/ryz310/pr_comet/pull/334) Bump rubocop-performance from 1.14.0 to 1.14.1 ([@ryz310](https://github.com/ryz310))
+* [#336](https://github.com/ryz310/pr_comet/pull/336) ryz310/rubocop-challenge/20220606233101 ([@ryz310](https://github.com/ryz310))
+* [#337](https://github.com/ryz310/pr_comet/pull/337) Bump rubocop-performance from 1.14.1 to 1.14.2 ([@ryz310](https://github.com/ryz310))
+* [#338](https://github.com/ryz310/pr_comet/pull/338) Bump octokit from 4.23.0 to 4.25.0 ([@ryz310](https://github.com/ryz310))
+* [#339](https://github.com/ryz310/pr_comet/pull/339) ryz310/rubocop-challenge/20220627233105 ([@ryz310](https://github.com/ryz310))
+* [#340](https://github.com/ryz310/pr_comet/pull/340) Re-generate .rubocop_todo.yml with RuboCop v1.31.1 ([@ryz310](https://github.com/ryz310))
+* [#344](https://github.com/ryz310/pr_comet/pull/344) ryz310/rubocop-challenge/20220709233102 ([@ryz310](https://github.com/ryz310))
+* [#341](https://github.com/ryz310/pr_comet/pull/341) Bump octokit from 4.25.0 to 4.25.1 ([@ryz310](https://github.com/ryz310))
+* [#347](https://github.com/ryz310/pr_comet/pull/347) End of support for Ruby 2.6 ([@ryz310](https://github.com/ryz310))
+* [#346](https://github.com/ryz310/pr_comet/pull/346) Bump octokit from 4.25.1 to 5.1.0 ([@ryz310](https://github.com/ryz310))
+
 ## v0.6.0 (May 08, 2022)
 
 ### Feature
