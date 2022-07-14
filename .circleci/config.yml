@@ -12,7 +12,7 @@ references:
   - &ruby_version
     ruby_version:
       type: enum
-      enum: ["2.6", "2.7", "3.0", "3.1"]
+      enum: ["2.7", "3.0", "3.1"]
       default: "3.1"
 
 executors:
@@ -97,9 +97,6 @@ commands:
       <<: *ruby_version
     steps:
       - checkout
-      - run:
-          name: Install bundler v2.x for ruby 2.5 & 2.6
-          command: gem install bundler
       - ruby-orbs/bundle-install:
           cache_key_prefix: v1-dependencies-<< parameters.ruby_version >>
   test_and_build:
@@ -127,7 +124,7 @@ jobs:
       - code-climate/install
       - code-climate/sum-coverage:
           input: codeclimate.*.json
-          parts: 4
+          parts: 3
       - code-climate/upload-coverage
   rubocop:
     executor: default
@@ -156,9 +153,6 @@ workflows:
   commit:
     jobs:
       - build:
-          name: build_on_ruby_2.6
-          ruby_version: "2.6"
-      - build:
           name: build_on_ruby_2.7
           ruby_version: "2.7"
       - build:
@@ -171,14 +165,12 @@ workflows:
       - yardoc
       - upload-coverage:
           requires:
-            - build_on_ruby_2.6
             - build_on_ruby_2.7
             - build_on_ruby_3.0
             - build_on_ruby_3.1
       - release:
           context: RubyGems API Key
           requires:
-            - build_on_ruby_2.6
             - build_on_ruby_2.7
             - build_on_ruby_3.0
             - build_on_ruby_3.1
