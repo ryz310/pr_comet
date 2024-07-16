@@ -109,8 +109,7 @@ RSpec.describe PrComet::Git::Command do
 
   describe '#commit' do
     before do
-      allow(command).to receive(:user_name).and_return('CommitterName')
-      allow(command).to receive(:user_email).and_return('committer@example.com')
+      allow(command).to receive_messages(user_name: 'CommitterName', user_email: 'committer@example.com')
     end
 
     let(:expected_command) do
