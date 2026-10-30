@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'shellwords'
+
 class PrComet
   module Git
     # To execute git command
@@ -45,9 +47,11 @@ class PrComet
       # @note For security, this command add a quiet option automatically.
       # @param remote [String] The remote repository name.
       # @param branch [String] The target branch. default: `#current_branch`
+      # @param credential_helper [String, nil] A credential helper used only
+      #   for this push. It replaces the configured helpers.
       # @return [String] The command's standard output.
-      def push(remote, branch = current_branch)
-        run('push', '-q', remote, branch)
+      def push(remote, branch = current_branch, credential_helper: nil)
+        run(*credential_options(credential_helper), 'push', '-q', remote, branch)
       end
 
       def current_sha1
@@ -80,6 +84,12 @@ class PrComet
       def run_with_environments(*subcommands)
         command = "#{environments} git #{subcommands.join(' ')}"
         execute(command)
+      end
+
+      def credential_options(credential_helper)
+        return [] if credential_helper.nil?
+
+        ['-c', 'credential.helper=', '-c', Shellwords.escape("credential.helper=#{credential_helper}")]
       end
 
       def config(key)

@@ -11,6 +11,15 @@ require 'pr_comet/github/client'
 
 # Helps to create a pull request
 class PrComet
+  # Passes the token via a credential helper instead of the URL. Since curl
+  # 8.5.0-2ubuntu10.16 (CVE-2026-94266), libcurl strips userinfo from
+  # CURLINFO_EFFECTIVE_URL, so git treats the response as a redirect and drops
+  # the token embedded in the URL before POST git-receive-pack.
+  # @note You *MUST NOT* use `#access_token` here because this string will be
+  #       output STDOUT via `PrComet::CommandLine` module.
+  TOKEN_CREDENTIAL_HELPER =
+    '!f() { echo username=x-access-token; echo "password=${GITHUB_ACCESS_TOKEN}"; }; f'
+
   # @note You have to set ENV['GITHUB_ACCESS_TOKEN']
   # @param base [String] The branch you want your changes pulled into
   # @param branch [String] The branch where your changes are going to implement.
@@ -75,7 +84,7 @@ class PrComet
     options[:validate] = true if options[:validate].nil?
     return false if options[:validate] && !git_condition_valid?
 
-    git.push(github_token_url, topic_branch)
+    git.push(github_url, topic_branch, credential_helper: TOKEN_CREDENTIAL_HELPER)
     pr_number = github.create_pull_request(**generate_create_pr_options(**options))
     github.add_labels(pr_number, *options[:labels]) unless options[:labels].nil?
     unless options[:project_column_name].nil?
@@ -119,9 +128,7 @@ class PrComet
     ENV['GITHUB_ACCESS_TOKEN']
   end
 
-  # @note You *MUST NOT* use `#access_token` in the URL because this string
-  #       will be output STDOUT via `RubocopChallenger::CommandLine` module.
-  def github_token_url
-    "https://${GITHUB_ACCESS_TOKEN}@github.com/#{github.repository}"
+  def github_url
+    "https://github.com/#{github.repository}"
   end
 end

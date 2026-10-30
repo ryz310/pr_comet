@@ -94,7 +94,7 @@ RSpec.describe PrComet do
       end
 
       let(:expected_remote_url) do
-        'https://${GITHUB_ACCESS_TOKEN}@github.com/ryz310/rubocop_challenger'
+        'https://github.com/ryz310/rubocop_challenger'
       end
 
       it { is_expected.to be_truthy }
@@ -103,7 +103,22 @@ RSpec.describe PrComet do
         create!
         expect(git_command)
           .to have_received(:push)
-          .with(expected_remote_url, 'topic_branch')
+          .with(expected_remote_url, 'topic_branch', credential_helper: described_class::TOKEN_CREDENTIAL_HELPER)
+      end
+
+      context 'when GITHUB_ACCESS_TOKEN is set' do
+        before do
+          allow(ENV).to receive(:[]).and_call_original
+          allow(ENV).to receive(:[]).with('GITHUB_ACCESS_TOKEN').and_return('dummy-secret-token')
+        end
+
+        it 'does not pass the token value to git' do
+          create!
+          without_token = satisfy { |value| !value.include?('dummy-secret-token') }
+          expect(git_command)
+            .to have_received(:push)
+            .with(without_token, 'topic_branch', credential_helper: without_token)
+        end
       end
 
       it do

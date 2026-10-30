@@ -148,6 +148,22 @@ RSpec.describe PrComet::Git::Command do
           .with('git push -q origin current_branch')
       end
     end
+
+    context 'with a credential_helper option' do
+      let(:helper) { %q(!f() { printf 'password=%s\n' "${TOKEN}"; }; f) }
+      let(:helper_option) { Shellwords.escape("credential.helper=#{helper}") }
+
+      it do
+        command.push('origin', 'new_branch', credential_helper: helper)
+        expect(command)
+          .to have_received(:execute)
+          .with("git -c credential.helper= -c #{helper_option} push -q origin new_branch")
+      end
+
+      it 'passes the helper to git without shell expansion' do
+        expect(`git -c #{helper_option} config --get credential.helper`.chomp).to eq helper
+      end
+    end
   end
 
   describe '#current_sha1' do
