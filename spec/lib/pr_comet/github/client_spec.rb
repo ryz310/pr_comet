@@ -38,6 +38,38 @@ RSpec.describe PrComet::Github::Client do
         expect(client.repository).to eq 'ryz310/pr_comet'
       end
     end
+
+    context 'with an HTTPS remote without a .git suffix' do
+      let(:remote_url) { 'https://github.com/ryz310/pr_comet' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with an SSH remote without a .git suffix' do
+      let(:remote_url) { 'git@github.com:ryz310/pr_comet' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with dots in the repository name' do
+      let(:remote_url) { 'https://github.com/ryz310/pr.comet.git' }
+
+      it 'strips only the .git suffix' do
+        expect(client.repository).to eq 'ryz310/pr.comet'
+      end
+    end
+
+    context 'with a non-GitHub remote' do
+      let(:remote_url) { 'https://example.com/ryz310/pr_comet.git' }
+
+      it 'reports an invalid remote' do
+        expect { client }.to raise_error(ArgumentError, 'Expected a GitHub repository URL for the Git remote')
+      end
+    end
   end
 
   describe '#create_pull_request' do

@@ -7,8 +7,11 @@ class PrComet
       attr_reader :repository
 
       def initialize(access_token, remote_url)
+        match = REPOSITORY_MATCHER.match(remote_url)
+        raise ArgumentError, 'Expected a GitHub repository URL for the Git remote' unless match
+
         @client = Octokit::Client.new(access_token: access_token)
-        @repository = remote_url.match(REPOSITORY_MATCHER)[:repository]
+        @repository = match[:repository]
       end
 
       # Create a pull request
@@ -58,7 +61,10 @@ class PrComet
 
       private
 
-      REPOSITORY_MATCHER = %r{github\.com[:/](?<repository>.+)\.git}.freeze
+      REPOSITORY_MATCHER = %r{
+        \A(?:(?:https?|ssh|git)://(?:[^/\s@]+@)?github\.com/|[^/\s@]+@github\.com:)
+        (?<repository>[\w.-]+/[\w.-]+?)(?:\.git)?\z
+      }ix
 
       attr_reader :client
 
