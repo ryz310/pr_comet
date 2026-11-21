@@ -64,7 +64,7 @@ class PrComet
       REPOSITORY_MATCHER = %r{
         \A(?:(?:https?|ssh|git)://(?:[^/\s@]+@)?github\.com/|[^/\s@]+@github\.com:)
         (?<repository>[\w.-]+/[\w.-]+?)(?:\.git)?\z
-      }ix
+      }ix.freeze
 
       attr_reader :client
 
