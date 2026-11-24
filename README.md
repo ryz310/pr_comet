@@ -4,6 +4,10 @@
 
 A helper library that makes it easy to create pull requests.
 
+## Supported Ruby versions
+
+Ruby 3.3, 3.4, and 4.0.
+
 ## Installation
 
 Add this line to your application's Gemfile:

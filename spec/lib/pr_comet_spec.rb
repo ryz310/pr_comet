@@ -32,6 +32,8 @@ RSpec.describe PrComet do
   end
 
   before do
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('GITHUB_ACCESS_TOKEN').and_return('test-token')
     allow(PrComet::Git::Command).to receive(:new).and_return(git_command)
     allow(PrComet::Github::Client).to receive(:new).and_return(github_client)
   end
