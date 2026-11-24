@@ -4,9 +4,6 @@
 #
 version: 2.1
 
-orbs:
-  code-climate: rvla/code-climate@0.0.2
-
 references:
   - &ruby_version
     ruby_version:
@@ -26,27 +23,25 @@ commands:
   run_rspec:
     description: Run RSpec
     steps:
-      - code-climate/install
       - run:
           name: Execute RSpec
           command: |
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-            cc-test-reporter before-build
             bundle exec rspec --format documentation \
                               --color \
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
                               $TEST_FILES
-      - code-climate/format-coverage:
-          input-type: simplecov
-          prefix: $(readlink -f .)
-          coverage-file: coverage/coverage.json
-          output: coverage/codeclimate.$CIRCLE_BUILD_NUM.json
+      - run:
+          name: Prepare SimpleCov report
+          command: |
+            mkdir -p coverage/reports
+            cp coverage/.resultset.json "coverage/reports/resultset.${CIRCLE_BUILD_NUM}.json"
       - persist_to_workspace:
           root: coverage
           paths:
-            - codeclimate.*.json
+            - reports/*.json
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
@@ -92,15 +87,12 @@ commands:
             bundle exec rake release --trace
   setup:
     description: Setup for Job Working
-    parameters:
-      <<: *ruby_version
     steps:
       - checkout
       - run:
           name: Install locked dependencies
           command: |
-            gem install bundler -v 4.0.6 --no-document
-            BUNDLE_FROZEN=true bundle _4.0.6_ install
+            BUNDLE_FROZEN=true bundle install
   test_and_build:
     description: Build the RubyGem
     steps:
@@ -115,19 +107,21 @@ jobs:
       name: default
       ruby_version: << parameters.ruby_version >>
     steps:
-      - setup:
-          ruby_version: << parameters.ruby_version >>
+      - setup
       - test_and_build
   upload-coverage:
     executor: default
     steps:
       - attach_workspace:
           at: ~/repo
-      - code-climate/install
-      - code-climate/sum-coverage:
-          input: codeclimate.*.json
-          parts: 3
-      - code-climate/upload-coverage
+      - run:
+          name: Verify all Ruby coverage reports
+          command: |
+            set -- reports/resultset.*.json
+            test "$#" -eq 3 && test -f "$1"
+      - store_artifacts:
+          path: reports
+          destination: simplecov
   rubocop:
     executor: default
     steps:
@@ -153,30 +147,29 @@ workflows:
   version: 2
 
   commit:
-    # Preserve the legacy job labels required by branch protection until the Actions cutover.
     jobs:
       - build:
-          name: build_on_ruby_2.7
+          name: build_on_ruby_3.3
           ruby_version: '3.3'
       - build:
-          name: build_on_ruby_3.0
+          name: build_on_ruby_3.4
           ruby_version: '3.4'
       - build:
-          name: build_on_ruby_3.1
+          name: build_on_ruby_4.0
           ruby_version: '4.0'
       - rubocop
       - yardoc
       - upload-coverage:
           requires:
-            - build_on_ruby_2.7
-            - build_on_ruby_3.0
-            - build_on_ruby_3.1
+            - build_on_ruby_3.3
+            - build_on_ruby_3.4
+            - build_on_ruby_4.0
       - release:
           context: RubyGems API Key
           requires:
-            - build_on_ruby_2.7
-            - build_on_ruby_3.0
-            - build_on_ruby_3.1
+            - build_on_ruby_3.3
+            - build_on_ruby_3.4
+            - build_on_ruby_4.0
             - rubocop
           filters:
             branches:

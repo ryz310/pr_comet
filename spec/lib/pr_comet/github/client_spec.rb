@@ -8,14 +8,14 @@ RSpec.describe PrComet::Github::Client do
   let(:octokit_mock) do
     instance_double(
       Octokit::Client,
-      create_pull_request: OpenStruct.new(number: 123),
+      create_pull_request: Struct.new(:number).new(123),
       add_labels_to_an_issue: nil,
-      projects: [OpenStruct.new(id: 12_345)],
+      projects: [Struct.new(:id).new(12_345)],
       project_columns: [
-        OpenStruct.new(id: 1, name: 'Column A'),
-        OpenStruct.new(id: 2, name: 'Column B')
+        Struct.new(:id, :name).new(1, 'Column A'),
+        Struct.new(:id, :name).new(2, 'Column B')
       ],
-      pull_request: OpenStruct.new(id: 123_456_789),
+      pull_request: Struct.new(:id).new(123_456_789),
       create_project_card: nil
     )
   end

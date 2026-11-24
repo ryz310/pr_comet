@@ -4,6 +4,10 @@
 
 A helper library that makes it easy to create pull requests.
 
+## Supported Ruby versions
+
+Ruby 3.3, 3.4, and 4.0.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -111,7 +115,3 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the PrComet project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/pr_comet/blob/master/CODE_OF_CONDUCT.md).
-
-### Supported Ruby versions
-
-This gem supports maintained Ruby branches 3.3, 3.4, and 4.0.

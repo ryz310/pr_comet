@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'octokit'
   spec.add_runtime_dependency 'rainbow'
 
-  spec.add_development_dependency 'ostruct'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rdoc', '>= 7.0', '< 8'
   spec.add_development_dependency 'rspec'
