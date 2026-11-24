@@ -17,10 +17,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
-      contents: write
-      pull-requests: write
-    env:
-      BUNDLE_FROZEN: 'true'
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -29,11 +26,26 @@ jobs:
         with:
           ruby-version: '3.3'
           bundler-cache: false
-      - name: Install dependencies and Challenger
-        run: |
-          bundle install
-          gem install rubocop_challenger --no-document
+      - name: Install locked dependencies
+        env:
+          BUNDLE_FROZEN: 'true'
+        run: bundle install
+      - name: Install Challenger
+        run: gem install rubocop_challenger -v 2.11.1 --no-document
+
+      # Published PrComet 0.7.x expects the HTTPS remote to end in .git.
+      - name: Normalize origin for PrComet
+        run: git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
+
+      - name: Mint repository-scoped GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ vars.CHALLENGE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CHALLENGE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
       - name: Open challenge pull request
         env:
-          GITHUB_ACCESS_TOKEN: ${{ github.token }}
+          GITHUB_ACCESS_TOKEN: ${{ steps.app-token.outputs.token }}
         run: rubocop_challenger go --email=ryz310@gmail.com --name=ryz310

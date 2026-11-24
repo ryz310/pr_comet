@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master, production]
+    branches: [master]
   pull_request:
   workflow_dispatch:
   workflow_call:
@@ -50,7 +50,7 @@ jobs:
           path: coverage/resultset.json
           if-no-files-found: error
 
-  quality:
+  lint-and-docs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:

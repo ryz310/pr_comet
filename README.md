@@ -118,8 +118,8 @@ Everyone interacting in the PrComet project’s codebases, issue trackers, chat 
 
 ## CI and publishing
 
-GitHub Actions runs tests, packaging, RuboCop, and YARD and retains merged coverage as a workflow artifact. During the cutover, hosted coverage is not updated until the separate Qlty migration is applied.
+GitHub Actions runs RSpec and builds the gem on the supported Ruby versions. It also runs RuboCop, generates YARD docs, and saves merged coverage as a workflow artifact.
 
-Automatic RubyGems publishing is disabled until RubyGems Trusted Publishing is configured for the `release` environment and `release.yml` workflow. Then enable the repository variable `GHA_RELEASE_ENABLED=true`; publishing only runs on the `production` branch. Before enabling it, update that branch to include this workflow and disable/drain CircleCI publishing so both systems cannot publish the same release.
+Automatic publishing is opt-in via `GHA_RELEASE_ENABLED=true` and uses RubyGems Trusted Publishing for `release.yml`. Configure the GitHub `release` environment to allow deployments from the `production` branch only, and associate the RubyGems Trusted Publisher with that environment.
 
-After the first GitHub Actions run, replace the legacy CircleCI required checks with the corresponding new checks (`Ruby 3.3`, `Ruby 3.4`, `Ruby 4.0`, `quality` and `coverage`). Keep unrelated required checks unchanged. The scheduled RuboCop Challenge is opt-in via `GHA_CHALLENGE_ENABLED=true`; review its bot permissions and GitHub Actions settings before enabling it.
+The daily RuboCop Challenge is opt-in via `GHA_CHALLENGE_ENABLED=true`. Before enabling it, install a GitHub App on this repository with Contents and Pull requests write permissions. Set `CHALLENGE_APP_CLIENT_ID` as a repository variable and `CHALLENGE_APP_PRIVATE_KEY` as an Actions secret. The App token lets the challenge PR trigger CI without relying on approval of a PR created by the built-in token.
