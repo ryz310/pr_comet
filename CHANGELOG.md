@@ -1,11 +1,5 @@
 # Change log
 
-## Unreleased (planned v0.8.0)
-
-### Breaking Change
-
-- [#508](https://github.com/ryz310/pr_comet/pull/508) End support for Ruby 2.7–3.2; Ruby 3.3 is now required.
-
 ## v0.7.0 (Jul 14, 2022)
 
 ### Breaking Change

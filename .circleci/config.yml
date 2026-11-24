@@ -109,7 +109,7 @@ jobs:
     steps:
       - setup
       - test_and_build
-  upload-coverage:
+  collect-coverage:
     executor: default
     steps:
       - attach_workspace:
@@ -118,6 +118,7 @@ jobs:
           name: Verify all Ruby coverage reports
           command: |
             set -- reports/resultset.*.json
+            # Keep this in sync with the number of Ruby build jobs below.
             test "$#" -eq 3 && test -f "$1"
       - store_artifacts:
           path: reports
@@ -159,7 +160,7 @@ workflows:
           ruby_version: '4.0'
       - rubocop
       - yardoc
-      - upload-coverage:
+      - collect-coverage:
           requires:
             - build_on_ruby_3.3
             - build_on_ruby_3.4
