@@ -17,3 +17,8 @@ updates:
   - dependency-name: simplecov
     versions:
     - ">= 0.19.a, < 0.20"
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: weekly
+    timezone: Asia/Tokyo
