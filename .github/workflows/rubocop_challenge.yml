@@ -19,10 +19,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
-      - uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0
+      - uses: ruby/setup-ruby@v1.334.0
         with:
           ruby-version: '3.3'
           bundler-cache: false
@@ -39,7 +39,7 @@ jobs:
 
       - name: Mint repository-scoped GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        uses: actions/create-github-app-token@v3.4.0
         with:
           client-id: ${{ vars.CHALLENGE_APP_CLIENT_ID }}
           private-key: ${{ secrets.CHALLENGE_APP_PRIVATE_KEY }}

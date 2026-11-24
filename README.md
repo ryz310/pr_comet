@@ -118,6 +118,8 @@ Everyone interacting in the PrComet project’s codebases, issue trackers, chat 
 
 ## CI and publishing
 
+GitHub Actions dependencies are tracked in `.github/workflows/actions.lock`. After changing a workflow's `uses:` references, run `gh actions-lock` and commit the generated lockfile with the workflow. Dependabot updates locked Actions dependencies together with their references.
+
 GitHub Actions runs RSpec and builds the gem on the supported Ruby versions. It also runs RuboCop, generates YARD docs, and saves merged coverage as a workflow artifact.
 
 Automatic publishing is opt-in via `GHA_RELEASE_ENABLED=true` and uses RubyGems Trusted Publishing for `release.yml`. Configure the GitHub `release` environment to allow deployments from the `production` branch only, and associate the RubyGems Trusted Publisher with that environment.
