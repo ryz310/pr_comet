@@ -7,6 +7,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'actions/download-artifact@v8.0.2'
         - 'actions/upload-artifact@v7.0.2'
+        - 'qltysh/qlty-action@v2.5.0'
         - 'ruby/setup-ruby@v1.334.0'
     '.github/workflows/release.yml':
         - 'actions/checkout@v7.0.1'
@@ -39,6 +40,11 @@ dependencies:
         commit: 'sha1-cf430e030ddbb5b0abf93d22962f4752f3646cd9'
         owner_id: 44036562
         repo_id: 192625955
+    'qltysh/qlty-action@v2.5.0':
+        ref: 'v2.5.0'
+        commit: 'sha1-ebcd284bf32e36a030afe15f1e136c7be08b9506'
+        owner_id: 184769278
+        repo_id: 873940193
     'ruby/setup-ruby@v1.334.0':
         ref: 'v1.334.0'
         commit: 'sha1-26e5b7d197ebf60545ee9667bcbace0be11ccaec'

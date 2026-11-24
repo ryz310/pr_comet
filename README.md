@@ -1,6 +1,6 @@
 # PrComet
 
-[![CI](https://github.com/ryz310/pr_comet/actions/workflows/ci.yml/badge.svg)](https://github.com/ryz310/pr_comet/actions/workflows/ci.yml) [![Gem Version](https://badge.fury.io/rb/pr_comet.svg)](https://badge.fury.io/rb/pr_comet) [![Maintainability](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/maintainability)](https://codeclimate.com/github/ryz310/pr_comet/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/962618c106a548ed762b/test_coverage)](https://codeclimate.com/github/ryz310/pr_comet/test_coverage)
+[![CI](https://github.com/ryz310/pr_comet/actions/workflows/ci.yml/badge.svg)](https://github.com/ryz310/pr_comet/actions/workflows/ci.yml) [![Gem Version](https://badge.fury.io/rb/pr_comet.svg)](https://badge.fury.io/rb/pr_comet)
 
 A helper library that makes it easy to create pull requests.
 
@@ -120,7 +120,7 @@ Everyone interacting in the PrComet project’s codebases, issue trackers, chat 
 
 GitHub Actions dependencies are tracked in `.github/workflows/actions.lock`. After changing a workflow's `uses:` references, run `gh actions-lock` and commit the generated lockfile with the workflow. Dependabot updates locked Actions dependencies together with their references.
 
-GitHub Actions runs RSpec and builds the gem on the supported Ruby versions. It also runs RuboCop, generates YARD docs, and saves merged coverage as a workflow artifact.
+GitHub Actions runs RSpec and builds the gem on the supported Ruby versions. It also runs RuboCop, generates YARD docs, and saves merged coverage as a workflow artifact. To publish the report and view maintainability in Qlty, import the repository into Qlty Cloud and set `QLTY_COVERAGE_TOKEN` as an Actions secret. Fork PRs and runs without the secret retain the artifact without publishing.
 
 Automatic publishing is opt-in via `GHA_RELEASE_ENABLED=true` and uses RubyGems Trusted Publishing for `release.yml`. Configure the GitHub `release` environment to allow deployments from the `production` branch only, and associate the RubyGems Trusted Publisher with that environment.
 
