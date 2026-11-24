@@ -33,7 +33,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: ruby/setup-ruby@v1.334.0
+      - uses: ruby/setup-ruby@v1.343.0
         with:
           ruby-version: '3.3'
           bundler-cache: false
