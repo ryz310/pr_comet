@@ -96,3 +96,23 @@ jobs:
           name: merged-coverage
           path: coverage/coverage.json
           if-no-files-found: error
+      - name: Check Qlty credentials
+        id: qlty
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        env:
+          QLTY_COVERAGE_TOKEN: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+        run: |
+          if [ -n "$QLTY_COVERAGE_TOKEN" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "QLTY_COVERAGE_TOKEN is not set. Coverage was saved as a GitHub artifact."
+          fi
+      - name: Publish coverage to Qlty
+        if: ${{ steps.qlty.outputs.available == 'true' }}
+        uses: qltysh/qlty-action/coverage@v2.5.0
+        with:
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: coverage/coverage.json
+          skip-errors: true
+          # Qlty CLI is not tracked by Dependabot or actions.lock; bump manually after checking release notes.
+          cli-version: '0.672.0'
