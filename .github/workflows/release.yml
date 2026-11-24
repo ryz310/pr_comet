@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    branches: [production]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: ${{ vars.GHA_RELEASE_ENABLED == 'true' && github.ref == 'refs/heads/production' }}
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    needs: verify
+    if: ${{ vars.GHA_RELEASE_ENABLED == 'true' && github.ref == 'refs/heads/production' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      BUNDLE_FROZEN: 'true'
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.334.0
+        with:
+          ruby-version: '3.3'
+          bundler-cache: false
+      - run: bundle install
+      - name: Publish via RubyGems Trusted Publishing
+        uses: rubygems/release-gem@v1.4.1

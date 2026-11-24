@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Ruby ${{ matrix.ruby }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ['3.3', '3.4', '4.0']
+    env:
+      BUNDLE_FROZEN: 'true'
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.334.0
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run RSpec
+        run: |
+          mkdir -p test-results
+          bundle exec rspec --format documentation --format RspecJunitFormatter --out test-results/rspec.xml
+      - name: Build gem
+        run: bundle exec rake build
+      - name: Save test results
+        if: ${{ always() && hashFiles('test-results/*.xml') != '' }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: rspec-${{ matrix.ruby }}
+          path: test-results/
+          if-no-files-found: error
+      - name: Save coverage input
+        run: cp coverage/.resultset.json coverage/resultset.json
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: simplecov-${{ matrix.ruby }}
+          path: coverage/resultset.json
+          if-no-files-found: error
+
+  lint-and-docs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      BUNDLE_FROZEN: 'true'
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.334.0
+        with:
+          ruby-version: '4.0'
+          bundler-cache: true
+      - run: bundle exec rubocop
+      - run: bundle exec yardoc -o yardoc
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: yardoc
+          path: yardoc/
+          if-no-files-found: error
+
+  coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    needs: test
+    env:
+      BUNDLE_FROZEN: 'true'
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1.334.0
+        with:
+          ruby-version: '4.0'
+          bundler-cache: true
+      - uses: actions/download-artifact@v8.0.2
+        with:
+          pattern: simplecov-*
+          path: tmp/coverage-inputs
+      - name: Collate coverage from all supported Ruby versions
+        run: bundle exec ruby script/collate_coverage.rb
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: merged-coverage
+          path: coverage/coverage.json
+          if-no-files-found: error
