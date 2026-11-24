@@ -122,6 +122,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rspec
   simplecov (= 0.22.0)
+  simplecov_json_formatter (~> 0.1)
   yard
 
 BUNDLED WITH

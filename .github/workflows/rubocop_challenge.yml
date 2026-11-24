@@ -1,0 +1,39 @@
+name: RuboCop Challenge
+
+on:
+  schedule:
+    - cron: '30 23 * * *' # 08:30 JST
+  workflow_dispatch:
+
+concurrency:
+  group: rubocop-challenge
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  challenge:
+    if: ${{ vars.GHA_CHALLENGE_ENABLED == 'true' && github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      BUNDLE_FROZEN: 'true'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec # v1.334.0
+        with:
+          ruby-version: '3.3'
+          bundler-cache: false
+      - name: Install dependencies and Challenger
+        run: |
+          bundle install
+          gem install rubocop_challenger --no-document
+      - name: Open challenge pull request
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ github.token }}
+        run: rubocop_challenger go --email=ryz310@gmail.com --name=ryz310
