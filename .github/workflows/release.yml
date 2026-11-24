@@ -39,4 +39,4 @@ jobs:
           bundler-cache: false
       - run: bundle install
       - name: Publish via RubyGems Trusted Publishing
-        uses: rubygems/release-gem@v1.4.1
+        uses: rubygems/release-gem@v1.4.2
