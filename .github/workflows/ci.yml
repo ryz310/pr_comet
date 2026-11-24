@@ -113,4 +113,6 @@ jobs:
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: coverage/coverage.json
-          skip-errors: false
+          skip-errors: true
+          # Qlty CLI is not tracked by Dependabot or actions.lock; bump manually after checking release notes.
+          cli-version: '0.672.0'
