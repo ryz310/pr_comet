@@ -3,8 +3,8 @@
 require 'simplecov'
 SimpleCov.start
 
-require 'pry'
 require 'bundler/setup'
+require 'ostruct'
 require 'pr_comet'
 
 RSpec.configure do |config|
