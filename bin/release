@@ -6,7 +6,7 @@
 require 'bundler/setup'
 require 'pr_comet'
 
-VERSION_FORMAT = /\A\d+\.\d+\.\d+(\.(pre|beta|rc)\d?)?\z/.freeze
+VERSION_FORMAT = /\A\d+\.\d+\.\d+(\.(pre|beta|rc)\d?)?\z/
 version = ARGV[0]
 update_pr = PrComet.new(base: 'master', branch: "update/v#{version}")
 release_pr = PrComet.new(base: 'production', branch: 'master')

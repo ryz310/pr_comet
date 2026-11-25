@@ -8,14 +8,14 @@ RSpec.describe PrComet::Github::Client do
   let(:octokit_mock) do
     instance_double(
       Octokit::Client,
-      create_pull_request: OpenStruct.new(number: 123),
+      create_pull_request: Struct.new(:number).new(123),
       add_labels_to_an_issue: nil,
-      projects: [OpenStruct.new(id: 12_345)],
+      projects: [Struct.new(:id).new(12_345)],
       project_columns: [
-        OpenStruct.new(id: 1, name: 'Column A'),
-        OpenStruct.new(id: 2, name: 'Column B')
+        Struct.new(:id, :name).new(1, 'Column A'),
+        Struct.new(:id, :name).new(2, 'Column B')
       ],
-      pull_request: OpenStruct.new(id: 123_456_789),
+      pull_request: Struct.new(:id).new(123_456_789),
       create_project_card: nil
     )
   end
@@ -36,6 +36,88 @@ RSpec.describe PrComet::Github::Client do
 
       it 'returns the github repository name' do
         expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with an HTTPS remote without a .git suffix' do
+      let(:remote_url) { 'https://github.com/ryz310/pr_comet' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with an SSH remote without a .git suffix' do
+      let(:remote_url) { 'git@github.com:ryz310/pr_comet' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with dots in the repository name' do
+      let(:remote_url) { 'https://github.com/ryz310/pr.comet.git' }
+
+      it 'strips only the .git suffix' do
+        expect(client.repository).to eq 'ryz310/pr.comet'
+      end
+    end
+
+    context 'with an HTTPS remote with a trailing slash' do
+      let(:remote_url) { 'https://github.com/ryz310/pr_comet.git/' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with an HTTPS remote with a trailing slash and no .git suffix' do
+      let(:remote_url) { 'https://github.com/ryz310/pr_comet/' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with an SCP-style remote with no SSH user' do
+      let(:remote_url) { 'github.com:ryz310/pr_comet.git' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with a GitHub HTTPS remote with www' do
+      let(:remote_url) { 'https://www.github.com/ryz310/pr_comet.git' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with a GitHub HTTPS remote with credentials' do
+      let(:remote_url) { 'https://x-access-token:dummy-token@github.com/ryz310/pr_comet.git' }
+
+      it 'returns the github repository name' do
+        expect(client.repository).to eq 'ryz310/pr_comet'
+      end
+    end
+
+    context 'with a non-GitHub remote' do
+      let(:remote_url) { 'https://x-access-token:dummy-token@github.com.example.com/ryz310/pr_comet.git' }
+
+      it 'reports an invalid remote' do
+        expect do
+          client
+        end.to raise_error(PrComet::Errors::InvalidRemoteUrl, 'Expected a GitHub repository URL for the Git remote')
+      end
+    end
+
+    context 'with a GitHub SSH remote containing an explicit port' do
+      let(:remote_url) { 'ssh://git@github.com:22/ryz310/pr_comet.git' }
+
+      it 'reports an invalid remote' do
+        expect { client }.to raise_error(PrComet::Errors::Error)
       end
     end
   end
