@@ -10,9 +10,3 @@
 # Configuration parameters: AllowSubject.
 RSpec/MultipleMemoizedHelpers:
   Max: 9
-
-# Avoid overlapping the remote matcher edit in PR #507. Remove this entry
-# when that PR's regular expression no longer includes an explicit freeze.
-Style/RedundantFreeze:
-  Exclude:
-    - 'lib/pr_comet/github/client.rb'
