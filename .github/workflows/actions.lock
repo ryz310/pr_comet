@@ -12,7 +12,7 @@ workflows:
     '.github/workflows/release.yml':
         - 'actions/checkout@v7.0.1'
         - 'ruby/setup-ruby@v1.334.0'
-        - 'rubygems/release-gem@v1.4.1'
+        - 'rubygems/release-gem@v1.5.0'
     '.github/workflows/rubocop_challenge.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/create-github-app-token@v3.4.0'
@@ -50,15 +50,15 @@ dependencies:
         commit: 'sha1-26e5b7d197ebf60545ee9667bcbace0be11ccaec'
         owner_id: 210414
         repo_id: 231208785
-    'rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a':
-        ref: 'v2.1.0'
-        commit: 'sha1-dc5a8d8553e6ee01fc26761a49e99e733d17954a'
+    'rubygems/configure-rubygems-credentials@c6ca7f4bac0e29c9bde8eeae0a0a986b27efa05f':
+        ref: 'v2.2.0'
+        commit: 'sha1-c6ca7f4bac0e29c9bde8eeae0a0a986b27efa05f'
         owner_id: 208761
         repo_id: 631633510
-    'rubygems/release-gem@v1.4.1':
-        ref: 'v1.4.1'
-        commit: 'sha1-7f9650160c1a4e7989fdc9855807bdbd421d8b6b'
+    'rubygems/release-gem@v1.5.0':
+        ref: 'v1.5.0'
+        commit: 'sha1-2654a0fe0dc39725c07fe84d7fe863a084f2424e'
         owner_id: 208761
         repo_id: 731435765
         uses:
-            - 'rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a'
+            - 'rubygems/configure-rubygems-credentials@c6ca7f4bac0e29c9bde8eeae0a0a986b27efa05f'
