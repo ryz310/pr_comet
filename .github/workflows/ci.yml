@@ -109,7 +109,7 @@ jobs:
           fi
       - name: Publish coverage to Qlty
         if: ${{ steps.qlty.outputs.available == 'true' }}
-        uses: qltysh/qlty-action/coverage@v2.5.0
+        uses: qltysh/qlty-action/coverage@v2.8.0
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: coverage/coverage.json
